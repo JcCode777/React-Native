@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
 import * as Animatable from 'react-native-animatable';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 
 
@@ -36,11 +38,15 @@ const mapDispatchToProps = {
 
 function RenderCampsite(props) {
 
+    
+
+
     const {campsite} = props;
 
     const view = React.createRef();
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+    const recognizeComment = ({dx}) => (dx > 200 ? true : false);
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -68,6 +74,8 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            }else if(recognizeComment(gestureState)){
+                props.onShowModal();
             }
             return true;
         }
